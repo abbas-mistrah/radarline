@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If RADARLINE contributes to your work, please cite this repository."
+title: "RADARLINE: Technology & AI Intelligence OS"
+type: software
+authors:
+  - family-names: Mistrah
+    given-names: Abbas
+repository-code: "https://github.com/abbas-mistrah/radarline"
+url: "https://github.com/abbas-mistrah/radarline"
+version: 1.0.0
+date-released: 2026-09-23
+license: MIT
+keywords:
+  - technology intelligence
+  - artificial intelligence
+  - local AI
+  - strategic foresight
+  - evidence provenance

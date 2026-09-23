@@ -1,0 +1,12 @@
+{
+  "name": "RADARLINE — Technology & AI Intelligence OS",
+  "short_name": "RADARLINE",
+  "description": "Local-first technology and AI intelligence workspace.",
+  "start_url": "/#command",
+  "display": "standalone",
+  "background_color": "#f7f1e7",
+  "theme_color": "#ff681e",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

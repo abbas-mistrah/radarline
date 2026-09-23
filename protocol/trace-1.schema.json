@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abbas-mistrah/radarline/blob/main/protocol/trace-1.schema.json",
+  "title": "TRACE-1 Technology Intelligence Signal",
+  "description": "A portable, source-grounded contract for technology and AI intelligence signals.",
+  "type": "object",
+  "required": ["trace1_version", "signal", "classification", "scores", "evidence"],
+  "properties": {
+    "trace1_version": { "const": "1.0" },
+    "signal": {
+      "type": "object",
+      "required": ["title", "canonical_url", "content_hash", "published_at", "observed_at"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "canonical_url": { "type": "string", "format": "uri" },
+        "content_hash": { "type": "string", "minLength": 32 },
+        "published_at": { "type": "string", "format": "date-time" },
+        "observed_at": { "type": "string", "format": "date-time" },
+        "source": { "type": "string" },
+        "author": { "type": "string" },
+        "excerpt": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "classification": {
+      "type": "object",
+      "required": ["type", "status", "horizon"],
+      "properties": {
+        "type": { "enum": ["MODEL_RELEASE", "PRODUCT_LAUNCH", "RESEARCH_BREAKTHROUGH", "REGULATION", "SECURITY", "BUSINESS_MOVE", "CREATOR_INSIGHT", "INFRASTRUCTURE", "FUNDING", "OTHER"] },
+        "status": { "enum": ["IGNORE", "WATCH", "INVESTIGATE", "BRIEF", "ACT"] },
+        "horizon": { "enum": ["now", "next", "later"] }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "required": ["relevance", "novelty", "authority", "corroboration", "freshness", "traceability", "uncertainty", "trace"],
+      "properties": {
+        "relevance": { "$ref": "#/$defs/score" },
+        "novelty": { "$ref": "#/$defs/score" },
+        "authority": { "$ref": "#/$defs/score" },
+        "corroboration": { "$ref": "#/$defs/score" },
+        "freshness": { "$ref": "#/$defs/score" },
+        "traceability": { "$ref": "#/$defs/score" },
+        "uncertainty": { "$ref": "#/$defs/score" },
+        "trace": { "$ref": "#/$defs/score" },
+        "hype_gap": { "$ref": "#/$defs/score" },
+        "confidence": { "$ref": "#/$defs/score" }
+      }
+    },
+    "themes": { "type": "array", "items": { "type": "string" } },
+    "analysis": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string" },
+        "why_it_matters": { "type": "string" },
+        "implications": { "type": "array", "items": { "type": "string" } },
+        "claims": { "type": "array", "items": { "type": "string" } },
+        "model": { "type": "string" },
+        "analyzed_at": { "type": ["string", "null"] }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "observed_at"],
+        "properties": {
+          "url": { "type": "string", "format": "uri" },
+          "observed_at": { "type": "string", "format": "date-time" },
+          "content_hash": { "type": "string" },
+          "role": { "enum": ["primary", "corroborating", "contradicting", "context"] }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "score": { "type": "number", "minimum": 0, "maximum": 100 }
+  }
+}

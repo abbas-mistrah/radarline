@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff681e">
+  <meta name="description" content="RADARLINE turns technology and AI noise into source-grounded, decision-ready intelligence — locally.">
+  <title>RADARLINE — Technology &amp; AI Intelligence OS</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#view">Skip to intelligence workspace</a>
+  <div class="livebar">
+    <div class="live-brand"><span></span>RADARLINE <b>LIVE</b></div>
+    <div class="live-stat"><small>Signals</small><strong id="liveSignals">—</strong></div>
+    <div class="live-stat"><small>Brief-ready</small><strong id="livePriority">—</strong></div>
+    <div class="live-stat"><small>Sources</small><strong id="liveSources">—</strong></div>
+    <div class="live-stat"><small>Local AI</small><strong id="liveAi">—</strong></div>
+    <div class="demo-flag">DEMO SIGNALS ARE FICTIONAL</div>
+    <time id="liveClock">—</time>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-block">
+      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><em></em></div>
+      <div><strong>RADARLINE</strong><span>TECHNOLOGY INTELLIGENCE</span></div>
+      <button class="mobile-close" id="closeSidebar" aria-label="Close navigation">×</button>
+    </div>
+    <nav aria-label="Primary navigation">
+      <p>SENSE</p>
+      <button class="nav-item active" data-view="command"><span class="nav-icon">◉</span>Command Center<kbd>1</kbd></button>
+      <button class="nav-item" data-view="inbox"><span class="nav-icon">⌁</span>Signal Inbox<kbd>2</kbd></button>
+      <button class="nav-item" data-view="radar"><span class="nav-icon">◎</span>Radar Map<kbd>3</kbd></button>
+      <p>CURATE</p>
+      <button class="nav-item" data-view="watchlists"><span class="nav-icon">◇</span>Watch Themes<kbd>4</kbd></button>
+      <button class="nav-item" data-view="sources"><span class="nav-icon">⌘</span>Source Network<kbd>5</kbd></button>
+      <button class="nav-item" data-view="local-ai"><span class="nav-icon">✦</span>Local AI<kbd>6</kbd></button>
+      <p>BRIEF</p>
+      <button class="nav-item" data-view="brief"><span class="nav-icon">▤</span>Briefing Room<kbd>7</kbd></button>
+      <button class="nav-item" data-view="protocol"><span class="nav-icon">{ }</span>TRACE-1 Protocol<kbd>8</kbd></button>
+    </nav>
+    <div class="policy-card">
+      <span>INTELLIGENCE RULE</span>
+      <strong>Interpretation never replaces evidence.</strong>
+      <p>Every claim keeps a source, timestamp, content hash and explicit uncertainty.</p>
+    </div>
+    <div class="maker-card"><b>AM</b><div><strong>Abbas Mistrah</strong><span>AI Transformation &amp; Foresight</span></div><i></i></div>
+  </aside>
+
+  <section class="workspace">
+    <header class="workspace-header">
+      <button class="menu-button" id="openSidebar" aria-label="Open navigation">☰</button>
+      <div class="breadcrumb"><b>RADARLINE</b><span>/</span><strong id="currentLabel">Command Center</strong></div>
+      <div class="header-actions">
+        <label class="theme-picker"><span>FOCUS</span><select id="themePicker" aria-label="Filter by watch theme"><option value="all">All watch themes</option></select></label>
+        <button class="button ghost" data-action="export-trace">Export TRACE-1</button>
+        <button class="button ghost" data-action="capture-signal">+ Capture signal</button>
+        <button class="button primary" data-action="sync"><span>↻</span> Sync sources</button>
+      </div>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </section>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header><div><span id="modalEyebrow">RADARLINE</span><h2 id="modalTitle">Dialog</h2><p id="modalSubtitle"></p></div><button data-action="close-modal" aria-label="Close">×</button></header>
+      <div class="modal-body" id="modalBody"></div>
+      <footer id="modalFooter"></footer>
+    </section>
+  </div>
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

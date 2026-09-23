@@ -1,0 +1,47 @@
+{
+  "trace1_version": "1.0",
+  "signal": {
+    "title": "Compact multimodal model moves document intelligence onto standard laptops",
+    "canonical_url": "https://example.com/radarline-demo/signal-1",
+    "content_hash": "544364a8a5b6ced9b89c935497868ebf94720803f72a9f47b51af9b95ca13517",
+    "published_at": "2026-09-23T08:00:00.000Z",
+    "observed_at": "2026-09-23T08:00:00.000Z",
+    "source": "Northstar AI Lab · fictional demonstration",
+    "author": "RADARLINE demo desk",
+    "excerpt": "Fictional demonstration data used to show the TRACE-1 contract."
+  },
+  "classification": {
+    "type": "MODEL_RELEASE",
+    "status": "BRIEF",
+    "horizon": "now"
+  },
+  "scores": {
+    "relevance": 94,
+    "novelty": 88,
+    "authority": 86,
+    "corroboration": 74,
+    "freshness": 100,
+    "traceability": 100,
+    "uncertainty": 14,
+    "trace": 89,
+    "hype_gap": 8,
+    "confidence": 91
+  },
+  "themes": ["AI Infrastructure", "Enterprise Adoption", "Local & Sovereign AI"],
+  "analysis": {
+    "summary": "A small multimodal model can support structured document extraction on ordinary enterprise hardware in this fictional scenario.",
+    "why_it_matters": "It lowers infrastructure and privacy barriers for local document workflows.",
+    "implications": ["Validate on a representative internal document set."],
+    "claims": ["This example is fictional and exists only to demonstrate the schema."],
+    "model": "seeded-demo",
+    "analyzed_at": "2026-09-23T08:00:00.000Z"
+  },
+  "evidence": [
+    {
+      "url": "https://example.com/radarline-demo/signal-1",
+      "observed_at": "2026-09-23T08:00:00.000Z",
+      "content_hash": "544364a8a5b6ced9b89c935497868ebf94720803f72a9f47b51af9b95ca13517",
+      "role": "primary"
+    }
+  ]
+}
