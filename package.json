@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node --test --test-isolation=none",
+    "test": "node --test",
     "check": "node --check server.js && node --check cli.js && node --check src/database.js && node --check src/scoring.js && node --check src/connectors.js && node --check src/ai.js && node --check src/brief.js && node --check public/app.js",
     "build:demo-db": "node scripts/build-demo-db.js",
     "validate:protocol": "node cli.js check protocol/examples/local-model-release.trace.json"
