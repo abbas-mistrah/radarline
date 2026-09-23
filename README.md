@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/icons/icon.svg" width="88" alt="RADARLINE radar mark">
+  <img src="docs/radarline-social-preview.png" alt="RADARLINE — Technology & AI Intelligence OS">
 </p>
 
 <h1 align="center">RADARLINE</h1>
