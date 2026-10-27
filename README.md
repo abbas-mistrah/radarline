@@ -115,6 +115,10 @@ RADARLINE_OLLAMA_URL=http://127.0.0.1:11434 RADARLINE_MODEL=gemma3:1b npm start
 
 If Ollama is unavailable, the product stays functional and labels its deterministic fallback honestly.
 
+### Live sources in five minutes
+
+Want real signals instead of the fictional demo? Load the tested [AI starter pack](docs/STARTER-SOURCES.md): ten public AI sources (OpenAI, Google DeepMind, Hugging Face, arXiv, Ollama, llama.cpp, vLLM, Transformers, Hacker News and more), then run `node cli.js sync`.
+
 ## Data ownership
 
 | Asset | Repository | Your machine at runtime |

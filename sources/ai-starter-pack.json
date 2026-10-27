@@ -1,0 +1,16 @@
+{
+  "name": "AI starter pack",
+  "description": "Ten public, credential-free AI sources to bootstrap a RADARLINE workspace. Authority values are a starting point: adjust them to your own judgement.",
+  "sources": [
+    { "name": "OpenAI News", "kind": "publication", "connector": "rss", "url": "https://openai.com/news/rss.xml", "authority": 75, "topic": "frontier-models" },
+    { "name": "Google DeepMind Blog", "kind": "publication", "connector": "rss", "url": "https://deepmind.google/blog/rss.xml", "authority": 75, "topic": "frontier-models" },
+    { "name": "Hugging Face Blog", "kind": "publication", "connector": "rss", "url": "https://huggingface.co/blog/feed.xml", "authority": 70, "topic": "open-models" },
+    { "name": "Simon Willison's Weblog", "kind": "creator", "connector": "rss", "url": "https://simonwillison.net/atom/everything/", "authority": 65, "creator_name": "Simon Willison", "topic": "llm-practice" },
+    { "name": "arXiv cs.AI", "kind": "research", "connector": "rss", "url": "https://export.arxiv.org/api/query?search_query=cat:cs.AI&sortBy=submittedDate&sortOrder=descending&max_results=30", "authority": 60, "topic": "research" },
+    { "name": "Ollama releases", "kind": "release", "connector": "github", "url": "https://github.com/ollama/ollama", "authority": 80, "topic": "local-ai" },
+    { "name": "llama.cpp releases", "kind": "release", "connector": "github", "url": "https://github.com/ggml-org/llama.cpp", "authority": 80, "topic": "local-ai" },
+    { "name": "vLLM releases", "kind": "release", "connector": "github", "url": "https://github.com/vllm-project/vllm", "authority": 80, "topic": "inference" },
+    { "name": "Transformers releases", "kind": "release", "connector": "github", "url": "https://github.com/huggingface/transformers", "authority": 80, "topic": "open-models" },
+    { "name": "Hacker News · LLM", "kind": "community", "connector": "hackernews", "url": "https://hn.algolia.com/api/v1/search_by_date?query=LLM&tags=story", "authority": 40, "topic": "community" }
+  ]
+}
