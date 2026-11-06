@@ -92,7 +92,7 @@ npm start
 
 Open [http://127.0.0.1:4335](http://127.0.0.1:4335).
 
-On Windows, `launch-radarline.ps1` starts the local service and opens the application. To create a desktop shortcut:
+On Windows, `launch-radarline.ps1` starts the local service and opens the application. On macOS or Linux, use `./launch-radarline.sh` (set `RADARLINE_NO_BROWSER=1` to skip opening a browser). To create a Windows desktop shortcut:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install-desktop.ps1
