@@ -194,21 +194,24 @@ node cli.js export out.json
 radarline/
 ├─ public/                  # complete product interface and PWA shell
 ├─ src/                     # database, connectors, scoring, brief and local AI
+├─ sources/                 # AI starter pack of public sources
 ├─ database/                # reproducible fictional SQLite demonstration
 ├─ protocol/                # TRACE-1 schema and example
-├─ docs/                    # architecture, method and screenshots
+├─ docs/                    # architecture, method, starter guide and screenshots
 ├─ tests/                   # deterministic unit and API tests
 ├─ scripts/                 # demo database and desktop helper
+├─ launch-radarline.sh      # macOS / Linux launcher
+├─ launch-radarline.ps1     # Windows launcher
 ├─ server.js                # local HTTP/API service
 └─ cli.js                   # automation-friendly command line
 ```
 
 ## Honest scope
 
-RADARLINE 1.0 is a single-user local workspace, not a hosted multi-tenant intelligence platform. It has no user authentication because it binds to `127.0.0.1` by default. It does not promise that a signal is true; it makes the evidence and uncertainty inspectable. Production team deployment would require authentication, encrypted backup, connector-specific credentials management and organisational retention rules.
+RADARLINE 1.1 is a single-user local workspace, not a hosted multi-tenant intelligence platform. It has no user authentication because it binds to `127.0.0.1` by default. It does not promise that a signal is true; it makes the evidence and uncertainty inspectable. Production team deployment would require authentication, encrypted backup, connector-specific credentials management and organisational retention rules.
 
 ## Author
 
 Designed and built by **Abbas Mistrah** as part of an AI transformation and decision-intelligence portfolio.
 
-Contributions are welcome through [CONTRIBUTING.md](CONTRIBUTING.md). Licensed under the [MIT License](LICENSE).
+See the [changelog](CHANGELOG.md) for what is new in 1.1.0. Contributions are welcome through [CONTRIBUTING.md](CONTRIBUTING.md). Licensed under the [MIT License](LICENSE).
