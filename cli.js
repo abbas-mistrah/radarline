@@ -103,9 +103,11 @@ async function main() {
   process.exitCode = 1;
 }
 
-main().catch(error => {
-  console.error(`RADARLINE: ${error.message}`);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main().catch(error => {
+    console.error(`RADARLINE: ${error.message}`);
+    process.exitCode = 1;
+  });
+}
 
 module.exports = { validateContract };

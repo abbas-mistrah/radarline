@@ -2,6 +2,17 @@
 
 All notable changes to RADARLINE are documented here. The project follows semantic versioning.
 
+## [Unreleased]
+
+### Added
+
+- `tests/brief.test.js`: coverage for the deterministic intelligence brief (ranking, archived/ignored filtering, 12-signal cap, Now/Next/Later grouping, verification queue, empty workspace).
+- `tests/cli.test.js`: coverage for `radarline check` and the TRACE-1 contract validator, including exit codes on valid and invalid files.
+
+### Fixed
+
+- `cli.js` no longer runs a command (and prints the help) when it is required as a module.
+
 ## [1.1.0] — 2026-11-10
 
 ### Added
