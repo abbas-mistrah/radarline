@@ -73,7 +73,14 @@ function parseBody(request) {
     });
     request.on('end', () => {
       if (!raw) return resolve({});
-      try { resolve(JSON.parse(raw)); } catch { reject(new Error('Invalid JSON')); }
+      let parsed;
+      try { parsed = JSON.parse(raw); } catch { return reject(new Error('Invalid JSON')); }
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        const error = new Error('Request body must be a JSON object.');
+        error.status = 400;
+        return reject(error);
+      }
+      resolve(parsed);
     });
     request.on('error', reject);
   });
@@ -86,7 +93,9 @@ async function synchronize(input = {}) {
   const selected = input.source_id ? allSources.filter(item => item.id === Number(input.source_id)) : allSources;
   if (!selected.length) {
     syncInProgress = false;
-    throw new Error('No active automated source matches this request.');
+    const error = new Error('No active automated source matches this request.');
+    error.status = 404;
+    throw error;
   }
   const results = [];
   try {
@@ -237,8 +246,8 @@ const server = http.createServer(async (request, response) => {
     return serveStatic(response, url, request.method);
   } catch (error) {
     console.error(error);
-    const status = error.message === 'Payload too large' ? 413 : error.message === 'Invalid JSON' ? 400 :
-      /already/.test(error.message) ? 409 : 500;
+    const status = error.status || (error.message === 'Payload too large' ? 413 : error.message === 'Invalid JSON' ? 400 :
+      /already/.test(error.message) ? 409 : 500);
     return sendJson(response, status, { error: error.message || 'Internal error.' });
   }
 });

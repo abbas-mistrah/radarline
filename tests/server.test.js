@@ -75,3 +75,36 @@ test('TRACE export and schema remain machine-readable', async () => {
   assert.ok(exported.signals.length >= 12);
   assert.equal(schema.$id, 'https://github.com/abbas-mistrah/radarline/blob/main/protocol/trace-1.schema.json');
 });
+
+test('invalid input is a 400 client error, not a 500 server error', async () => {
+  const post = (route, body) => fetch(`${baseUrl()}${route}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body
+  });
+  const cases = [
+    ['/api/sources', '{"connector":"rss"}', 'Source name is required.'],
+    ['/api/sources', '{"name":"Feed","connector":"ftp"}', 'Unsupported connector.'],
+    ['/api/sources', '{"name":"Feed","connector":"rss"}', 'A URL is required for this connector.'],
+    ['/api/signals/manual', '{}', 'Signal title is required.'],
+    ['/api/signals/manual', 'null', 'Request body must be a JSON object.'],
+    ['/api/sources', '[1]', 'Request body must be a JSON object.'],
+    ['/api/sources', '{not json', 'Invalid JSON']
+  ];
+  for (const [route, body, message] of cases) {
+    const response = await post(route, body);
+    assert.equal(response.status, 400, `${route} ${body}`);
+    assert.equal((await response.json()).error, message);
+  }
+});
+
+test('syncing an unknown source answers 404', async () => {
+  const response = await fetch(`${baseUrl()}/api/sync`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ source_id: 999999 })
+  });
+  assert.equal(response.status, 404);
+  const health = await (await fetch(`${baseUrl()}/api/health`)).json();
+  assert.equal(health.sync_in_progress, false);
+});

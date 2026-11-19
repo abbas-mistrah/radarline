@@ -12,6 +12,7 @@ All notable changes to RADARLINE are documented here. The project follows semant
 ### Fixed
 
 - `cli.js` no longer runs a command (and prints the help) when it is required as a module.
+- The local API now answers `400` (not `500`) on invalid input: missing source name or URL, unsupported connector, missing signal title, and a body that is not a JSON object. Syncing an unknown source answers `404`. Covered by two new tests in `tests/server.test.js` (24 to 26 tests).
 
 ## [1.1.0] — 2026-11-10
 

@@ -7,6 +7,13 @@ const { hash } = require('./connectors');
 const { similarity, scoreSignal } = require('./scoring');
 const { buildBrief } = require('./brief');
 
+/** Input errors carry an HTTP status so the API answers 400, not 500. */
+function invalidInput(message) {
+  const error = new Error(message);
+  error.status = 400;
+  return error;
+}
+
 const projectRoot = path.resolve(__dirname, '..');
 const runtimeDirectory = path.join(projectRoot, '.data');
 const demoDatabasePath = path.join(projectRoot, 'database', 'radarline-demo.sqlite');
@@ -313,10 +320,10 @@ function addSource(input) {
   const name = String(input.name || '').trim();
   const connector = String(input.connector || 'rss').toLowerCase();
   const supported = ['rss', 'json', 'github', 'hackernews', 'web', 'manual'];
-  if (!name) throw new Error('Source name is required.');
-  if (!supported.includes(connector)) throw new Error('Unsupported connector.');
+  if (!name) throw invalidInput('Source name is required.');
+  if (!supported.includes(connector)) throw invalidInput('Unsupported connector.');
   const url = String(input.url || '').trim();
-  if (connector !== 'manual' && !url) throw new Error('A URL is required for this connector.');
+  if (connector !== 'manual' && !url) throw invalidInput('A URL is required for this connector.');
   const result = db.prepare(`INSERT INTO sources
     (name, kind, connector, url, cadence, authority, language, active, creator_name, topic)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
@@ -400,7 +407,7 @@ function saveFetchedItems(sourceId, items) {
 
 function addManualSignal(input) {
   const title = String(input.title || '').trim();
-  if (!title) throw new Error('Signal title is required.');
+  if (!title) throw invalidInput('Signal title is required.');
   const sourceId = Number(input.source_id) || null;
   const source = sourceId ? normalize(db.prepare('SELECT * FROM sources WHERE id = ?').get(sourceId)) : null;
   const item = {
