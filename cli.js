@@ -4,6 +4,18 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+const SIGNAL_FIELDS = ['title', 'canonical_url', 'content_hash', 'published_at', 'observed_at'];
+const SCORE_FIELDS = [
+  'relevance', 'novelty', 'authority', 'corroboration',
+  'freshness', 'traceability', 'uncertainty', 'trace'
+];
+const CLASSIFICATION_TYPES = [
+  'MODEL_RELEASE', 'PRODUCT_LAUNCH', 'RESEARCH_BREAKTHROUGH', 'REGULATION',
+  'SECURITY', 'BUSINESS_MOVE', 'CREATOR_INSIGHT', 'INFRASTRUCTURE', 'FUNDING', 'OTHER'
+];
+const CLASSIFICATION_STATUSES = ['IGNORE', 'WATCH', 'INVESTIGATE', 'BRIEF', 'ACT'];
+const CLASSIFICATION_HORIZONS = ['now', 'next', 'later'];
+
 function help() {
   console.log(`RADARLINE · Technology & AI Intelligence OS
 
@@ -18,20 +30,84 @@ Usage:
 No cloud account is required. Ollama is optional and runs on localhost.`);
 }
 
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
 function validateContract(contract) {
+  if (!isPlainObject(contract)) {
+    return { valid: false, errors: ['The document must be a JSON object.'] };
+  }
+
   const errors = [];
   if (contract.trace1_version !== '1.0') errors.push('trace1_version must be 1.0.');
-  if (!contract.signal || typeof contract.signal !== 'object') errors.push('signal is required.');
-  const signal = contract.signal || {};
-  ['title', 'canonical_url', 'content_hash', 'published_at', 'observed_at'].forEach(key => {
+
+  if (!isPlainObject(contract.signal)) errors.push('signal is required.');
+  const signal = isPlainObject(contract.signal) ? contract.signal : {};
+  SIGNAL_FIELDS.forEach(key => {
     if (!signal[key]) errors.push(`signal.${key} is required.`);
   });
-  if (!contract.scores || typeof contract.scores !== 'object') errors.push('scores are required.');
-  for (const [key, value] of Object.entries(contract.scores || {})) {
-    if (typeof value !== 'number' || value < 0 || value > 100) errors.push(`scores.${key} must be between 0 and 100.`);
+
+  if (!isPlainObject(contract.classification)) {
+    errors.push('classification is required.');
+  } else {
+    if (!CLASSIFICATION_TYPES.includes(contract.classification.type)) {
+      errors.push('classification.type is invalid.');
+    }
+    if (!CLASSIFICATION_STATUSES.includes(contract.classification.status)) {
+      errors.push('classification.status is invalid.');
+    }
+    if (!CLASSIFICATION_HORIZONS.includes(contract.classification.horizon)) {
+      errors.push('classification.horizon is invalid.');
+    }
   }
-  if (!Array.isArray(contract.evidence)) errors.push('evidence must be an array.');
+
+  if (!isPlainObject(contract.scores)) {
+    errors.push('scores are required.');
+  } else {
+    const keys = new Set([...SCORE_FIELDS, ...Object.keys(contract.scores)]);
+    for (const key of keys) {
+      const value = contract.scores[key];
+      if (typeof value !== 'number' || value < 0 || value > 100) {
+        errors.push(`scores.${key} must be between 0 and 100.`);
+      }
+    }
+  }
+
+  if (!Array.isArray(contract.evidence)) {
+    errors.push('evidence must be an array.');
+  } else {
+    contract.evidence.forEach((item, index) => {
+      if (!isPlainObject(item)) {
+        errors.push(`evidence[${index}] must be an object.`);
+        return;
+      }
+      if (!item.url) errors.push(`evidence[${index}].url is required.`);
+      if (!item.observed_at) errors.push(`evidence[${index}].observed_at is required.`);
+    });
+  }
+
   return { valid: errors.length === 0, errors };
+}
+
+function checkFile(filePath) {
+  const file = path.resolve(filePath);
+  let raw;
+  try {
+    raw = fs.readFileSync(file, 'utf8');
+  } catch (error) {
+    if (error.code === 'ENOENT') return { valid: false, errors: [`File not found: ${file}`] };
+    throw error;
+  }
+
+  let contract;
+  try {
+    contract = JSON.parse(raw);
+  } catch {
+    return { valid: false, errors: [`Invalid JSON in ${file}.`] };
+  }
+
+  return validateContract(contract);
 }
 
 async function main() {
@@ -46,8 +122,7 @@ async function main() {
   }
   if (command === 'check') {
     if (!argument) throw new Error('Provide a TRACE-1 JSON file.');
-    const file = path.resolve(argument);
-    const result = validateContract(JSON.parse(fs.readFileSync(file, 'utf8')));
+    const result = checkFile(argument);
     console.log(JSON.stringify(result, null, 2));
     if (!result.valid) process.exitCode = 1;
     return;
@@ -110,4 +185,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { validateContract };
+module.exports = { validateContract, checkFile };

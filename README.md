@@ -186,6 +186,7 @@ node cli.js doctor         # inspect local database and Ollama readiness
 node cli.js sync           # synchronise active automated sources
 node cli.js brief daily    # generate a local brief
 node cli.js export out.json
+node cli.js check file.json  # validate a TRACE-1 signal contract
 ```
 
 ## Repository map

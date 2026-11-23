@@ -13,6 +13,7 @@ All notable changes to RADARLINE are documented here. The project follows semant
 
 - `cli.js` no longer runs a command (and prints the help) when it is required as a module.
 - The local API now answers `400` (not `500`) on invalid input: missing source name or URL, unsupported connector, missing signal title, and a body that is not a JSON object. Syncing an unknown source answers `404`. Covered by two new tests in `tests/server.test.js` (24 to 26 tests).
+- `radarline check` and `validateContract` now require the TRACE-1 classification block and the full score set (relevance, novelty, authority, corroboration, freshness, traceability, uncertainty, trace). A scores array, a missing file, or invalid JSON is reported as a structured validation error that names the file, instead of being accepted or thrown as a raw exception. Three new tests in `tests/cli.test.js` (26 to 29).
 
 ## [1.1.0] — 2026-11-10
 
