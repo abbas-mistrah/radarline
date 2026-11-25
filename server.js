@@ -239,7 +239,15 @@ function serveStatic(response, url, method) {
 }
 
 const server = http.createServer(async (request, response) => {
-  const url = new URL(request.url, `http://${request.headers.host || `${host}:${port}`}`);
+  let url;
+  try {
+    // Build the URL from the configured address, never from the client-controlled
+    // Host header: a malformed Host (e.g. "a b") made new URL() throw outside the
+    // try block and crashed the whole process.
+    url = new URL(request.url, `http://${host}:${port}`);
+  } catch {
+    return sendJson(response, 400, { error: 'Invalid request URL.' });
+  }
   try {
     if (url.pathname.startsWith('/api/')) return await handleApi(request, response, url);
     if (!['GET', 'HEAD'].includes(request.method)) return sendJson(response, 405, { error: 'Method not allowed.' });
@@ -248,7 +256,9 @@ const server = http.createServer(async (request, response) => {
     console.error(error);
     const status = error.status || (error.message === 'Payload too large' ? 413 : error.message === 'Invalid JSON' ? 400 :
       /already/.test(error.message) ? 409 : 500);
-    return sendJson(response, status, { error: error.message || 'Internal error.' });
+    // Client errors keep their message; unexpected 500s answer a generic message
+    // and keep the details (paths, SQL, stack) in the server log only.
+    return sendJson(response, status, { error: status >= 500 ? 'Internal error.' : (error.message || 'Request failed.') });
   }
 });
 

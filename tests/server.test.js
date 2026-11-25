@@ -98,6 +98,22 @@ test('invalid input is a 400 client error, not a 500 server error', async () => 
   }
 });
 
+test('a malformed Host header gets a response and does not crash the server', async () => {
+  const net = require('node:net');
+  const raw = await new Promise((resolve, reject) => {
+    const socket = net.connect(server.address().port, '127.0.0.1', () => {
+      socket.write('GET /api/health HTTP/1.1\r\nHost: a b\r\nConnection: close\r\n\r\n');
+    });
+    let data = '';
+    socket.on('data', chunk => { data += chunk; });
+    socket.on('end', () => resolve(data));
+    socket.on('error', reject);
+  });
+  assert.match(raw, /^HTTP\/1\.1 (200|400) /);
+  const health = await fetch(`${baseUrl()}/api/health`);
+  assert.equal(health.status, 200);
+});
+
 test('syncing an unknown source answers 404', async () => {
   const response = await fetch(`${baseUrl()}/api/sync`, {
     method: 'POST',
